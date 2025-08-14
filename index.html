@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonjour Français - Learn French</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS is embedded here */
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #0984e3;
+            --accent-color: #fdcb6e;
+            --background-light: #f6f6f8;
+            --card-background: #ffffff;
+            --text-color: #2d3436;
+        }
+
+        /* Dark Mode Colors */
+        body.dark-mode {
+            --primary-color: #a29bfe;
+            --secondary-color: #74b9ff;
+            --accent-color: #ffeaa7;
+            --background-light: #2d3436;
+            --card-background: #4a515e;
+            --text-color: #dfe6e9;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3 {
+            color: var(--primary-color);
+        }
+
+        /* Mobile Message */
+        .mobile-message {
+            display: none;
+            background-color: #fd79a8;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .mobile-message button {
+            background-color: #e84393;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-message button:hover {
+            background-color: #c23616;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-message {
+                display: block;
+            }
+            body {
+                padding-top: 70px;
+            }
+        }
+
+        /* Header and Navigation */
+        .main-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .logo i {
+            margin-right: 5px;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 5px 0;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px;
+            background-image: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            color: white;
+        }
+
+        .hero-section h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .hero-section p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* App Sections */
+        .app-section {
+            background-color: var(--card-background);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .app-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .app-section h2 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Feature Cards (Home Page) */
+        .features-overview {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background-color: #fce4ec; /* Light pink */
+            padding: 20px;
+            border-radius: 12px;
+            width: 30%;
+            min-width: 280px;
+            text-align: center;
+            margin: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .feature-card {
+            background-color: #6a1b9a; /* Dark purple */
+            color: #f3e5f5;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .feature-card i {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .feature-card i {
+            color: var(--accent-color);
+        }
+
+        .feature-card h3 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .feature-card h3 {
+            color: var(--text-color);
+        }
+
+        /* Buttons and Inputs */
+        button, input[type="text"], select {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"], select {
+            background-color: var(--background-light);
+            color: var(--text-color);
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            width: calc(50% - 22px);
+            box-sizing: border-box;
+        }
+
+        body.dark-mode input[type="text"],
+        body.dark-mode select {
+            background-color: var(--card-background);
+            color: var(--text-color);
+            border-color: #7f8c8d;
+        }
+
+        /* Flashcard-specific styles */
+        .flashcard-mode {
+            background-color: #f1f2f6;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .flashcard-mode {
+            background-color: #4a515e;
+            border-color: #7f8c8d;
+        }
+
+        #flashcard-container {
+            background-color: var(--accent-color);
+            padding: 40px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--text-color);
+            text-align: center;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode #flashcard-container {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+        }
+
+        /* Settings */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Custom Message Box for alerts/confirms */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .message-box {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .message-box.confirm .message-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .message-box.alert .message-buttons {
+            margin-top: 20px;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .hero-section h1 {
+                font-size: 2em;
+            }
+
+            .hero-section p {
+                font-size: 1em;
+            }
+
+            .feature-card {
+                width: 90%;
+            }
+
+            button, input[type="text"], select {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="mobile-message" class="mobile-message">
+        <p>This app is more fun on a bigger screen!</p>
+        <button id="dismiss-mobile-message">OK</button>
+    </div>
+
+    <!-- Custom Message Box -->
+    <div id="message-box-overlay" class="message-box-overlay">
+        <div id="message-box" class="message-box">
+            <p id="message-text"></p>
+            <div id="message-buttons" class="message-buttons">
+                <!-- Buttons will be added dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo"><i class="fas fa-flag"></i>Bonjour Français</div>
+            <ul class="nav-links">
+                <li><a href="#home" data-section="home" class="active"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="#lessons" data-section="lessons"><i class="fas fa-book-open"></i>Lessons</a></li>
+                <li><a href="#vocabulary" data-section="vocabulary"><i class="fas fa-spell-check"></i>Vocabulary</a></li>
+                <li><a href="#quizzes" data-section="quizzes"><i class="fas fa-star-half-alt"></i>Quizzes</a></li>
+                <li><a href="#progress" data-section="progress"><i class="fas fa-chart-line"></i>Progress</a></li>
+                <li><a href="#settings" data-section="settings"><i class="fas fa-cog"></i>Settings</a></li>
+            </ul>
+        </nav>
+        <div class="hero-section">
+            <h1>Learn French the Fun Way!</h1>
+            <p>Your interactive journey to mastering the French language starts here.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Home Section -->
+        <section id="home" class="app-section active">
+            <h2>Welcome to Bonjour Français!</h2>
+            <p>Start your language learning adventure today. Explore interactive lessons, build your vocabulary, test your knowledge with quizzes, and track your progress.</p>
+            <div class="features-overview">
+                <div class="feature-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Interactive Lessons</h3>
+                    <p>Engaging content for all levels.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Vocabulary Builder</h3>
+                    <p>Expand your word bank with flashcards.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-edit"></i>
+                    <h3>Fun Quizzes</h3>
+                    <p>Test your knowledge and get immediate feedback.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lessons Section -->
+        <section id="lessons" class="app-section">
+            <h2>Lessons</h2>
+            <div class="level-selection">
+                <button data-level="beginner">Beginner</button>
+                <button data-level="intermediate">Intermediate</button>
+                <button data-level="advanced">Advanced</button>
+            </div>
+            <div id="lesson-content">
+                <!-- Lesson content will be loaded here dynamically -->
+                <p>Select a level to start your lessons.</p>
+            </div>
+        </section>
+
+        <!-- Vocabulary Section -->
+        <section id="vocabulary" class="app-section">
+            <h2>Vocabulary Builder</h2>
+            <div class="vocabulary-categories">
+                <button data-category="greetings">Greetings</button>
+                <button data-category="food">Food</button>
+                <button data-category="travel">Travel</button>
+                <button data-category="custom">Custom Words</button>
+            </div>
+            <div class="vocabulary-display">
+                <!-- Vocabulary words will be displayed here -->
+                <p>Select a category to view vocabulary.</p>
+            </div>
+            <div class="add-custom-word">
+                <h3>Add Custom Word</h3>
+                <input type="text" id="french-word" placeholder="French Word">
+                <input type="text" id="english-translation" placeholder="English Translation">
+                <button id="add-word-btn">Add Word</button>
+            </div>
+            <div class="flashcard-mode">
+                <h3>Flashcard Practice</h3>
+                <div id="flashcard-container">
+                    <p id="flashcard-word">Click 'Start Flashcards'</p>
+                    <button id="toggle-flashcard">Show Answer</button>
+                </div>
+                <button id="start-flashcards-btn">Start Flashcards</button>
+                <button id="next-flashcard-btn">Next Word</button>
+            </div>
+        </section>
+
+        <!-- Quizzes Section -->
+        <section id="quizzes" class="app-section">
+            <h2>Quizzes and Exercises</h2>
+            <div class="quiz-selection">
+                <button data-quiz-type="multiple-choice">Multiple Choice</button>
+                <button data-quiz-type="fill-in-blank">Fill-in-the-Blank</button>
+                <button data-quiz-type="matching">Matching</button>
+            </div>
+            <div id="quiz-container">
+                <!-- Quizzes will be loaded here dynamically -->
+                <p>Select a quiz type to begin.</p>
+            </div>
+            <div id="quiz-feedback"></div>
+            <div id="quiz-score"></div>
+            <button id="submit-quiz" style="display: none;">Submit Quiz</button>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progress" class="app-section">
+            <h2>Your Progress</h2>
+            <div id="progress-dashboard">
+                <p>Lessons Completed: <span id="lessons-completed-percentage">0%</span></p>
+                <p>Quizzes Passed: <span id="quizzes-passed-count">0</span></p>
+                <p>Vocabulary Words Learned: <span id="vocabulary-learned-count">0</span></p>
+                <!-- More detailed progress can be added here -->
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="app-section">
+            <h2>Settings</h2>
+            <div class="setting-item">
+                <label for="dark-mode-toggle">Dark Mode:</label>
+                <input type="checkbox" id="dark-mode-toggle">
+            </div>
+            <div class="setting-item">
+                <label for="language-toggle">App Language:</label>
+                <select id="language-toggle">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <button id="reset-progress-btn">Reset All Progress</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // JavaScript is embedded here
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const sections = document.querySelectorAll('.app-section');
+            const mobileMessage = document.getElementById('mobile-message');
+            const dismissMobileMessageBtn = document.getElementById('dismiss-mobile-message');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const languageToggle = document.getElementById('language-toggle');
+            const resetProgressBtn = document.getElementById('reset-progress-btn');
+
+            // --- Custom Message Box Functions ---
+            const messageBoxOverlay = document.getElementById('message-box-overlay');
+            const messageBox = document.getElementById('message-box');
+            const messageText = document.getElementById('message-text');
+            const messageButtons = document.getElementById('message-buttons');
+
+            function showMessageBox(message, type = 'alert', onConfirm = null) {
+                messageText.textContent = message;
+                messageButtons.innerHTML = '';
+                messageBox.classList.remove('alert', 'confirm');
+
+                if (type === 'alert') {
+                    messageBox.classList.add('alert');
+                    const okButton = document.createElement('button');
+                    okButton.textContent = 'OK';
+                    okButton.addEventListener('click', () => {
+                        messageBoxOverlay.style.display = 'none';
+                    });
+                    messageButtons.appendChild(okButton);
+                } else if (type === 'confirm') {
+                    messageBox.classList.add('confirm');
+                    const yesButton = document.createElement('button');
+                    yesButton.textContent = 'Yes';
+                    yesButton.addEventListener('click', () => {
+                        messageBoxOverlay.style.display = 'none';
+                        if (onConfirm) onConfirm();
+                    });
+
+                    const noButton = document.createElement('button');
+                    noButton.textContent = 'No';
+                    noButton.addEventListener('click', () => {
+                        messageBoxOverlay.style.display = 'none';
+                    });
+
+                    messageButtons.appendChild(yesButton);
+                    messageButtons.appendChild(noButton);
+                }
+                messageBoxOverlay.style.display = 'flex';
+            }
+
+            // --- Core Navigation and Section Display ---
+            function showSection(id) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(id).classList.add('active');
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === id) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // Update URL hash for direct linking
+                history.pushState(null, '', `#${id}`);
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = link.getAttribute('data-section');
+                    showSection(sectionId);
+                });
+            });
+
+            // Handle initial load based on URL hash
+            const initialSection = window.location.hash ? window.location.hash.substring(1) : 'home';
+            if (document.getElementById(initialSection)) {
+                showSection(initialSection);
+            } else {
+                showSection('home'); // Default to home if hash is invalid
+            }
+
+            // --- Mobile Message Logic ---
+            function checkScreenSize() {
+                if (window.innerWidth < 768) {
+                    mobileMessage.style.display = 'block';
+                } else {
+                    mobileMessage.style.display = 'none';
+                }
+            }
+
+            dismissMobileMessageBtn.addEventListener('click', () => {
+                mobileMessage.style.display = 'none';
+            });
+
+            window.addEventListener('resize', checkScreenSize);
+            checkScreenSize(); // Initial check
+
+            // --- Settings Logic ---
+            // Dark Mode
+            const loadDarkModeSetting = () => {
+                const isDarkMode = localStorage.getItem('darkMode') === 'true';
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.checked = true;
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    darkModeToggle.checked = false;
+                }
+            };
+
+            darkModeToggle.addEventListener('change', () => {
+                if (darkModeToggle.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+            loadDarkModeSetting();
+
+            // Language Toggle (Conceptual - requires full content translation)
+            const loadLanguageSetting = () => {
+                const lang = localStorage.getItem('appLanguage') || 'en';
+                languageToggle.value = lang;
+                console.log(`App language set to: ${lang}`);
+            };
+
+            languageToggle.addEventListener('change', (e) => {
+                const selectedLang = e.target.value;
+                localStorage.setItem('appLanguage', selectedLang);
+                showMessageBox(`Language changed to ${selectedLang}. (Requires full content translation implementation)`);
+                console.log(`Language changed to: ${selectedLang}`);
+            });
+            loadLanguageSetting();
+
+            // Reset Progress
+            resetProgressBtn.addEventListener('click', () => {
+                showMessageBox('Are you sure you want to reset all your progress? This action cannot be undone.', 'confirm', () => {
+                    localStorage.clear();
+                    showMessageBox('All progress has been reset!', 'alert', () => {
+                        location.reload();
+                    });
+                });
+            });
+
+
+            // --- Lessons Section (Example Structure - Expand significantly) ---
+            const lessonContentDiv = document.getElementById('lesson-content');
+            const lessonLevels = document.querySelectorAll('#lessons .level-selection button');
+
+            const lessonsData = {
+                beginner: [
+                    {
+                        title: 'Lesson 1: Greetings',
+                        audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+                        text: 'Bonjour (Hello), Salut (Hi), Au revoir (Goodbye)',
+                        examples: ['Bonjour, comment ça va?', 'Salut, ça va bien.'],
+                        image: 'https://placehold.co/150x150/6c5ce7/ffffff?text=Greetings'
+                    },
+                    // Add more beginner lessons
+                ],
+                intermediate: [
+                    {
+                        title: 'Lesson 1: Daily Routines',
+                        audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+                        text: 'Se lever (to get up), Prendre le petit-déjeuner (to have breakfast)',
+                        examples: ['Je me lève tôt.', 'Elle prend son petit-déjeuner.'],
+                        image: 'https://placehold.co/150x150/fdcb6e/2d3436?text=Routine'
+                    }
+                    // Add more intermediate lessons
+                ],
+                advanced: [
+                    {
+                        title: 'Lesson 1: Subjunctive Mood',
+                        audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+                        text: 'Il faut que je parte. (It is necessary that I leave.)',
+                        examples: ['Il est important que tu saches la vérité.', 'Je doute qu\'il vienne.'],
+                        image: 'https://placehold.co/150x150/0984e3/ffffff?text=Subjunctive'
+                    }
+                    // Add more advanced lessons
+                ]
+            };
+
+            function loadLesson(level, lessonIndex = 0) {
+                const lesson = lessonsData[level][lessonIndex];
+                if (!lesson) {
+                    lessonContentDiv.innerHTML = `<p>No more lessons for ${level} level.</p>`;
+                    return;
+                }
+
+                lessonContentDiv.innerHTML = `
+                    <h3>${lesson.title}</h3>
+                    <p>${lesson.text}</p>
+                    <button class="play-audio-btn" data-audio="${lesson.audio}">🔊 Play Audio</button>
+                    <h4>Examples:</h4>
+                    <ul>
+                        ${lesson.examples.map(ex => `<li>${ex}</li>`).join('')}
+                    </ul>
+                    <img src="${lesson.image}" alt="${lesson.title}" style="max-width: 100%; height: auto; border-radius: 8px; margin-top: 15px;">
+                    <p>
+                        <button class="prev-lesson-btn" data-level="${level}" data-index="${lessonIndex - 1}" ${lessonIndex === 0 ? 'disabled' : ''}>Previous</button>
+                        <button class="next-lesson-btn" data-level="${level}" data-index="${lessonIndex + 1}">Next</button>
+                    </p>
+                `;
+
+                // Attach audio playback listener
+                const audioBtn = lessonContentDiv.querySelector('.play-audio-btn');
+                if (audioBtn) {
+                    audioBtn.addEventListener('click', () => {
+                        const audio = new Audio(audioBtn.dataset.audio);
+                        audio.play().catch(e => console.error("Error playing audio:", e));
+                    });
+                }
+
+                // Attach navigation listeners
+                const prevBtn = lessonContentDiv.querySelector('.prev-lesson-btn');
+                const nextBtn = lessonContentDiv.querySelector('.next-lesson-btn');
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        const newIndex = parseInt(prevBtn.dataset.index);
+                        if (newIndex >= 0) loadLesson(prevBtn.dataset.level, newIndex);
+                    });
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        const newIndex = parseInt(nextBtn.dataset.index);
+                        if (newIndex < lessonsData[nextBtn.dataset.level].length) {
+                            loadLesson(nextBtn.dataset.level, newIndex);
+                        } else {
+                            lessonContentDiv.innerHTML += `<p>You've completed all ${nextBtn.dataset.level} lessons for now!</p>`;
+                        }
+                    });
+                }
+                updateProgress('lessons', level, lessonIndex);
+            }
+
+            lessonLevels.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const level = e.target.dataset.level;
+                    loadLesson(level);
+                });
+            });
+
+            // --- Vocabulary Builder (Example Structure - Expand significantly) ---
+            const vocabularyDisplayDiv = document.querySelector('.vocabulary-display');
+            const addWordBtn = document.getElementById('add-word-btn');
+            const frenchWordInput = document.getElementById('french-word');
+            const englishTranslationInput = document.getElementById('english-translation');
+            const vocabularyCategories = document.querySelectorAll('.vocabulary-categories button');
+            const startFlashcardsBtn = document.getElementById('start-flashcards-btn');
+            const nextFlashcardBtn = document.getElementById('next-flashcard-btn');
+            const toggleFlashcardBtn = document.getElementById('toggle-flashcard');
+            const flashcardWord = document.getElementById('flashcard-word');
+
+            let userVocabulary = JSON.parse(localStorage.getItem('userVocabulary')) || [];
+            let currentFlashcardIndex = 0;
+            let flashcardModeActive = false;
+            let showFlashcardTranslation = false;
+
+            const defaultVocabulary = {
+                greetings: [{fr: 'Bonjour', en: 'Hello'}, {fr: 'Au revoir', en: 'Goodbye'}],
+                food: [{fr: 'Pain', en: 'Bread'}, {fr: 'Eau', en: 'Water'}],
+                travel: [{fr: 'Aéroport', en: 'Airport'}, {fr: 'Hôtel', en: 'Hotel'}]
+            };
+
+            function displayVocabulary(category) {
+                let wordsToDisplay = [];
+                if (category === 'custom') {
+                    wordsToDisplay = userVocabulary;
+                } else {
+                    wordsToDisplay = defaultVocabulary[category] || [];
+                }
+
+                if (wordsToDisplay.length === 0) {
+                    vocabularyDisplayDiv.innerHTML = `<p>No words in the '${category}' category yet.</p>`;
+                    return;
+                }
+
+                vocabularyDisplayDiv.innerHTML = `
+                    <ul>
+                        ${wordsToDisplay.map(word => `<li><strong>${word.fr}</strong> - ${word.en}</li>`).join('')}
+                    </ul>
+                `;
+            }
+
+            addWordBtn.addEventListener('click', () => {
+                const frWord = frenchWordInput.value.trim();
+                const enTranslation = englishTranslationInput.value.trim();
+                if (frWord && enTranslation) {
+                    userVocabulary.push({ fr: frWord, en: enTranslation });
+                    localStorage.setItem('userVocabulary', JSON.stringify(userVocabulary));
+                    displayVocabulary('custom'); // Show custom words after adding
+                    frenchWordInput.value = '';
+                    englishTranslationInput.value = '';
+                    updateProgress('vocabulary');
+                } else {
+                    showMessageBox('Please enter both a French word and its English translation.');
+                }
+            });
+
+            vocabularyCategories.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const category = e.target.dataset.category;
+                    displayVocabulary(category);
+                });
+            });
+
+            // Flashcard Logic
+            function startFlashcards() {
+                if (userVocabulary.length === 0) {
+                    showMessageBox('Please add some custom words to your vocabulary first to use flashcards.');
+                    return;
+                }
+                flashcardModeActive = true;
+                currentFlashcardIndex = 0;
+                showFlashcardTranslation = false;
+                displayFlashcard();
+            }
+
+            function displayFlashcard() {
+                if (userVocabulary.length === 0) {
+                    flashcardWord.textContent = 'No words for flashcards.';
+                    return;
+                }
+                const word = userVocabulary[currentFlashcardIndex];
+                flashcardWord.textContent = showFlashcardTranslation ? word.en : word.fr;
+                toggleFlashcardBtn.textContent = showFlashcardTranslation ? 'Show French' : 'Show English';
+            }
+
+            startFlashcardsBtn.addEventListener('click', startFlashcards);
+
+            nextFlashcardBtn.addEventListener('click', () => {
+                if (!flashcardModeActive) return;
+                currentFlashcardIndex = (currentFlashcardIndex + 1) % userVocabulary.length;
+                showFlashcardTranslation = false; // Reset to show French word
+                displayFlashcard();
+            });
+
+            toggleFlashcardBtn.addEventListener('click', () => {
+                if (!flashcardModeActive) return;
+                showFlashcardTranslation = !showFlashcardTranslation;
+                displayFlashcard();
+            });
+
+            // Initial display for vocabulary section
+            displayVocabulary('greetings');
+
+
+            // --- Quizzes and Exercises (Example Structure - Expand significantly) ---
+            const quizContainer = document.getElementById('quiz-container');
+            const quizFeedback = document.getElementById('quiz-feedback');
+            const quizScoreDisplay = document.getElementById('quiz-score');
+            const submitQuizBtn = document.getElementById('submit-quiz');
+            const quizTypeButtons = document.querySelectorAll('.quiz-selection button');
+
+            let currentQuiz = null;
+            let quizType = '';
+
+            const quizzesData = {
+                'multiple-choice': [
+                    {
+                        question: 'What is "Hello" in French?',
+                        options: ['Bonjour', 'Merci', 'Oui', 'Non'],
+                        answer: 'Bonjour'
+                    },
+                    {
+                        question: 'What is "Thank you" in French?',
+                        options: ['Pardon', 'S\'il vous plaît', 'Merci', 'De rien'],
+                        answer: 'Merci'
+                    }
+                ],
+                'fill-in-blank': [
+                    {
+                        sentence: 'Je ___ française. (am)',
+                        answer: 'suis'
+                    },
+                    {
+                        sentence: 'Il fait ___ aujourd\'hui. (hot)',
+                        answer: 'chaud'
+                    }
+                ],
+                'matching': [
+                    { pairs: [{fr: 'Chat', en: 'Cat'}, {fr: 'Chien', en: 'Dog'}, {fr: 'Oiseau', en: 'Bird'}] }
+                ]
+            };
+
+            function loadQuiz(type) {
+                quizType = type;
+                submitQuizBtn.style.display = 'block';
+                quizFeedback.textContent = '';
+                quizScoreDisplay.textContent = '';
+                currentQuiz = quizzesData[type][0]; // Load first quiz of the type for simplicity
+
+                if (!currentQuiz) {
+                    quizContainer.innerHTML = `<p>No quizzes available for ${type}.</p>`;
+                    submitQuizBtn.style.display = 'none';
+                    return;
+                }
+
+                let quizHtml = '';
+                if (type === 'multiple-choice') {
+                    quizHtml = `
+                        <div class="quiz-item">
+                            <p>${currentQuiz.question}</p>
+                            ${currentQuiz.options.map((option, index) => `
+                                <label>
+                                    <input type="radio" name="mcq-answer" value="${option}"> ${option}
+                                </label><br>
+                            `).join('')}
+                        </div>
+                    `;
+                } else if (type === 'fill-in-blank') {
+                    quizHtml = `
+                        <div class="quiz-item">
+                            <p>${currentQuiz.sentence.replace('___', '<input type="text" class="fill-blank-input" placeholder="Your answer">')}</p>
+                        </div>
+                    `;
+                } else if (type === 'matching') {
+                    // For matching, you'd typically have drag-and-drop or dropdowns.
+                    // This is a simplified example.
+                    quizHtml = `<div class="quiz-item">`;
+                    currentQuiz.pairs.forEach((pair, index) => {
+                        quizHtml += `
+                            <p>${pair.fr} - <input type="text" class="matching-input" data-index="${index}" placeholder="Match English"></p>
+                        `;
+                    });
+                    quizHtml += `</div>`;
+                }
+                quizContainer.innerHTML = quizHtml;
+            }
+
+            submitQuizBtn.addEventListener('click', () => {
+                let score = 0;
+                let totalQuestions = 0;
+
+                if (quizType === 'multiple-choice') {
+                    totalQuestions = 1;
+                    const selectedAnswer = document.querySelector('input[name="mcq-answer"]:checked');
+                    if (selectedAnswer && selectedAnswer.value === currentQuiz.answer) {
+                        quizFeedback.textContent = 'Correct! 🎉';
+                        quizFeedback.style.color = 'green';
+                        score = 1;
+                    } else {
+                        quizFeedback.textContent = `Incorrect. The correct answer was: ${currentQuiz.answer}`;
+                        quizFeedback.style.color = 'red';
+                    }
+                } else if (quizType === 'fill-in-blank') {
+                    totalQuestions = 1;
+                    const input = document.querySelector('.fill-blank-input');
+                    if (input && input.value.trim().toLowerCase() === currentQuiz.answer.toLowerCase()) {
+                        quizFeedback.textContent = 'Correct! 🎉';
+                        quizFeedback.style.color = 'green';
+                        score = 1;
+                    } else {
+                        quizFeedback.textContent = `Oops! The correct answer was: ${currentQuiz.answer}`;
+                        quizFeedback.style.color = 'red';
+                    }
+                } else if (quizType === 'matching') {
+                    totalQuestions = currentQuiz.pairs.length;
+                    let correctMatches = 0;
+                    document.querySelectorAll('.matching-input').forEach(input => {
+                        const index = parseInt(input.dataset.index);
+                        if (input.value.trim().toLowerCase() === currentQuiz.pairs[index].en.toLowerCase()) {
+                            correctMatches++;
+                        }
+                    });
+                    score = correctMatches;
+                    if (correctMatches === totalQuestions) {
+                        quizFeedback.textContent = 'You got them all! ⭐';
+                        quizFeedback.style.color = 'green';
+                    } else if (correctMatches > 0) {
+                        quizFeedback.textContent = `Good job! You got ${correctMatches} out of ${totalQuestions} correct.`;
+                        quizFeedback.style.color = 'orange';
+                    } else {
+                        quizFeedback.textContent = 'Keep trying! You can do it!';
+                        quizFeedback.style.color = 'red';
+                    }
+                }
+
+                quizScoreDisplay.textContent = `Your Score: ${score}/${totalQuestions}`;
+                updateProgress('quizzes', quizType, score);
+            });
+
+            quizTypeButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    loadQuiz(e.target.dataset.quizType);
+                });
+            });
+
+            // --- Progress Tracking (LocalStorage) ---
+            let userProgress = JSON.parse(localStorage.getItem('userProgress')) || {
+                lessons: {},
+                quizzes: {},
+                vocabularyCount: 0,
+                totalLessons: Object.keys(lessonsData).reduce((acc, level) => acc + lessonsData[level].length, 0)
+            };
+
+            function updateProgress(type, key, value) {
+                if (type === 'lessons') {
+                    userProgress.lessons[key] = userProgress.lessons[key] || { completed: 0, total: lessonsData[key].length };
+                    if (value + 1 > userProgress.lessons[key].completed) {
+                        userProgress.lessons[key].completed = value + 1;
+                    }
+                } else if (type === 'quizzes') {
+                    userProgress.quizzes[key] = userProgress.quizzes[key] || { totalAttempts: 0, passed: 0 };
+                    userProgress.quizzes[key].totalAttempts++;
+                    if (value > 0) {
+                        userProgress.quizzes[key].passed++;
+                    }
+                } else if (type === 'vocabulary') {
+                    userProgress.vocabularyCount = userVocabulary.length;
+                }
+                localStorage.setItem('userProgress', JSON.stringify(userProgress));
+                displayProgress();
+            }
+
+            function displayProgress() {
+                const lessonsCompletedPercentageSpan = document.getElementById('lessons-completed-percentage');
+                const quizzesPassedCountSpan = document.getElementById('quizzes-passed-count');
+                const vocabularyLearnedCountSpan = document.getElementById('vocabulary-learned-count');
+
+                let totalLessonsCompleted = 0;
+                let totalLessonsAvailable = 0;
+
+                for (const level in userProgress.lessons) {
+                    totalLessonsCompleted += userProgress.lessons[level].completed;
+                    totalLessonsAvailable += userProgress.lessons[level].total;
+                }
+
+                const overallLessonCompletion = totalLessonsAvailable > 0 ?
+                    ((totalLessonsCompleted / totalLessonsAvailable) * 100).toFixed(0) : 0;
+
+                let totalQuizzesPassed = 0;
+                for (const quizType in userProgress.quizzes) {
+                    totalQuizzesPassed += userProgress.quizzes[quizType].passed;
+                }
+
+                lessonsCompletedPercentageSpan.textContent = `${overallLessonCompletion}%`;
+                quizzesPassedCountSpan.textContent = totalQuizzesPassed;
+                vocabularyLearnedCountSpan.textContent = userProgress.vocabularyCount;
+            }
+
+            displayProgress();
+        });
+    </script>
+</body>
+</html>
