@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ chef.name }} — The Brigade — Lumière{% endblock %}
+{% block description %}{{ chef.role }} at Lumière. {{ chef.philosophy }}{% endblock %}
+
+{% block content %}
+<section class="detail-hero">
+  <div class="wrap detail-hero__inner">
+    <div class="detail-hero__text reveal">
+      <a class="crumb" href="/chefs">‹ The brigade</a>
+      <p class="kicker">{{ chef.role }} · At Lumière since {{ chef.joined }} · {{ chef.location }}</p>
+      <h1 class="reveal">{{ chef.name }}</h1>
+      <p class="lead reveal">“{{ chef.philosophy }}”</p>
+      <div class="stat-row reveal">
+        {% for s in chef.stats %}
+        <div class="stat-row__item"><strong>{{ s.value }}</strong><span>{{ s.label }}</span></div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="detail-hero__media detail-hero__media--portrait reveal">
+      <img src="{{ url_for('static', filename='img/' + chef.image) }}" alt="{{ chef.name }}">
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split split--wide">
+    <div class="prose reveal">
+      <h2>The cook, in three acts.</h2>
+      {% for p in chef.bio %}<p>{{ p }}</p>{% endfor %}
+      <p class="story-note">Day off: {{ chef.day_off }}</p>
+    </div>
+    <aside class="reveal">
+      <div class="spec__card">
+        <h3>Awards & honours</h3>
+        <ul class="award-list">
+          {% for a in chef.awards %}
+          <li>{{ a }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% if chef.signature_dishes %}
+      <div class="spec__card spec__card--dishes">
+        <h3>Signature dishes</h3>
+        <div class="sig-chips">
+          {% for slug in chef.signature_dishes %}
+            {% set d = all_dishes | selectattr('slug', 'equalto', slug) | list | first %}
+            <a class="sig-chip" href="/menu/dish/{{ d.slug }}">
+              <span class="sig-chip__name">{{ d.name }}</span>
+              <span class="sig-chip__price">£{{ d.price }}</span>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>The road here</h2><p>A career told in six mile-markers.</p></div>
+    <ol class="timeline timeline--compact">
+      {% for j in chef.journey %}
+      <li class="timeline__item reveal">
+        <div class="timeline__year">{{ j.year }}</div>
+        <div class="timeline__card"><p>{{ j.event }}</p></div>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>“{{ chef.quote }}”</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Taste the work</a>
+      <a class="btn btn--ghost-dark" href="/chefs">The whole brigade ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

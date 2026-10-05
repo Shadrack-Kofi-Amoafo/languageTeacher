@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}The Brigade — Lumière{% endblock %}
+{% block description %}Six cooks: a founder, a fire chef, a stopwatch pastry chef, a ferment librarian, a butcher and a fish butcher.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">The brigade</p>
+    <h1 class="reveal">Seventeen cooks.<br>Six you should know.</h1>
+    <p class="lead reveal">The kitchen runs on a quiet minute, a lit fire, and the six people whose names appear on the menu whether you notice or not. This is them — the training, the philosophies, and the dishes that carry their fingerprints.</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="chef-grid">
+      {% for c in all_chefs %}
+      <a class="chef-card tilt reveal" href="/chefs/{{ c.slug }}">
+        <div class="chef-card__media">
+          <img src="{{ url_for('static', filename='img/' + c.image) }}" alt="{{ c.name }}" loading="lazy">
+        </div>
+        <div class="chef-card__body">
+          <h3>{{ c.name }}</h3>
+          <p class="chef-card__role">{{ c.role }}</p>
+          <p class="chef-card__quote">“{{ c.quote }}”</p>
+          <span class="chef-card__link">Read the profile ›</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="kicker">The quiet minute</p>
+      <h2>How service begins.</h2>
+      <p class="lead">At 5:58 p.m., before the first ticket, the whole kitchen stops for sixty seconds. No words, no pans, just the fire crackling and everyone looking at the menu one last time. Elena started it in 2012. Nobody has ever broken it.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="/story">How it started</a>
+        <a class="btn btn--ghost" href="/careers">Join the brigade ›</a>
+      </div>
+    </div>
+    <ul class="biglist reveal">
+      <li><strong>5:45</strong><span>The fire is lit. Antoine, personally, 2,100 days running.</span></li>
+      <li><strong>5:58</strong><span>The quiet minute. Sixty seconds of silence and menu-reading.</span></li>
+      <li><strong>6:00</strong><span>First ticket. The room fills. The rest is timing.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Want them cooking for you?</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/events">Cook with them at an event ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

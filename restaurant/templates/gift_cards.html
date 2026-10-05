@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Gift Cards — Lumière{% endblock %}
+{% block description %}Give someone a very good evening. Cotton-pressed physical cards or digital in ninety seconds. No expiry, ever.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ page.kicker }}</p>
+    <h1 class="reveal">{{ page.title }}</h1>
+    <p class="lead reveal">{{ page.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="tiers">
+      {% for t in page.tiers %}
+      <div class="tier reveal">
+        <div class="tier__amount">£{{ t.amount }}</div>
+        <h3>{{ t.name }}</h3>
+        <p>{{ t.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="tier tier--custom reveal">
+      <h3>{{ page.custom.title }}</h3>
+      <p>{{ page.custom.text }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="kicker">How it works</p>
+      <h2>Ninety seconds, or two days.</h2>
+      <div class="process process--stacked">
+        {% for h in page.how %}
+        <div class="process__step">
+          <span class="process__num">{{ h.step }}</span>
+          <h3>{{ h.title }}</h3>
+          <p>{{ h.text }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="form-card" id="gift-form">
+        {% if order_done %}
+          <div class="form-done">
+            <div class="form-done__icon">✦</div>
+            <h3>Card ordered.</h3>
+            <p>It's on its way — digital lands in ninety seconds, cotton-pressed in two working days. Thank you for the generosity.</p>
+            <a class="btn btn--primary" href="/menu">Browse the menu it will spend on</a>
+          </div>
+        {% else %}
+        <h3>Order a gift card</h3>
+        <p class="form-card__sub">Digital or cotton-pressed. No expiry, obviously.</p>
+        <form method="post" action="/gift-cards" class="form" novalidate>
+          <div class="form__row form__row--2">
+            <div class="field {% if errors.sender %}field--error{% endif %}">
+              <label for="gc-sender">Your name *</label>
+              <input id="gc-sender" name="sender" type="text" value="{{ values.sender or '' }}" placeholder="The giver">
+              {% if errors.sender %}<p class="field__error">{{ errors.sender }}</p>{% endif %}
+            </div>
+            <div class="field {% if errors.amount %}field--error{% endif %}">
+              <label for="gc-amount">Amount (£) *</label>
+              <input id="gc-amount" name="amount" type="number" min="25" max="10000" step="5" value="{{ values.amount or '250' }}">
+              {% if errors.amount %}<p class="field__error">{{ errors.amount }}</p>{% endif %}
+            </div>
+          </div>
+          <div class="form__row form__row--2">
+            <div class="field {% if errors.recipient %}field--error{% endif %}">
+              <label for="gc-recipient">Recipient *</label>
+              <input id="gc-recipient" name="recipient" type="text" value="{{ values.recipient or '' }}" placeholder="The lucky one">
+              {% if errors.recipient %}<p class="field__error">{{ errors.recipient }}</p>{% endif %}
+            </div>
+            <div class="field {% if errors.recipient_email %}field--error{% endif %}">
+              <label for="gc-email">Their email *</label>
+              <input id="gc-email" name="recipient_email" type="email" value="{{ values.recipient_email or '' }}" placeholder="for delivery">
+              {% if errors.recipient_email %}<p class="field__error">{{ errors.recipient_email }}</p>{% endif %}
+            </div>
+          </div>
+          <div class="field">
+            <label for="gc-delivery">Delivery</label>
+            <select id="gc-delivery" name="delivery">
+              <option value="digital">Digital — ninety seconds</option>
+              <option value="physical">Cotton-pressed — two working days</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="gc-message">A note, printed by hand</label>
+            <textarea id="gc-message" name="message" rows="3" placeholder="For the person who orders dessert first.">{{ values.message or '' }}</textarea>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Send the evening</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="section-head section-head--dark reveal"><h2>The fine print, in large print.</h2></div>
+    <ul class="fineprint">
+      {% for f in page.fine_print %}
+      <li class="reveal">{{ f }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

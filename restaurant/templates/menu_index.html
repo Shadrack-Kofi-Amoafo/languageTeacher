@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}The Menu — Lumière{% endblock %}
+{% block description %}Six sections, one argument: starters, mains, seafood, plants, desserts and a 400-bottle cellar. Twelve signatures.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">The menu</p>
+    <h1 class="reveal">Six sections.<br>One argument.</h1>
+    <p class="lead reveal">Rewritten six times a year from the farm's crates and the boats' catch. Twelve signatures never leave; everything else answers to the season. Prices include the conversation.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="cat-grid">
+      {% for c in categories %}
+      <a class="cat-card tilt reveal" href="/menu/{{ c.slug }}">
+        <div class="cat-card__media" style="background-image:url('{{ url_for('static', filename='img/' + c.image) }}')"></div>
+        <div class="cat-card__body">
+          <p class="cat-card__kicker">{{ c.kicker }}</p>
+          <h2>{{ c.name }}</h2>
+          <p class="cat-card__tagline">{{ c.tagline }}</p>
+          <span class="cat-card__link">Explore {{ c.name | lower }} ›</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>The signatures.</h2>
+      <p>Twelve dishes with their own pages — the ones regulars order by single words.</p>
+    </div>
+    <div class="sig-index">
+      {% for d in all_dishes %}
+      <a class="sig-row reveal" href="/menu/dish/{{ d.slug }}">
+        <span class="sig-row__num">{{ '%02d' % loop.index }}</span>
+        <span class="sig-row__name">{{ d.name }}</span>
+        <span class="sig-row__tagline">{{ d.tagline }}</span>
+        <span class="sig-row__price">£{{ d.price }}</span>
+        <span class="sig-row__arrow">›</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Allergies? Tell us once. We'll remember.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/recipes">Cook it yourself ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

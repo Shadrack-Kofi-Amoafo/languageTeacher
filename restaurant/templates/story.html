@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Our Story — Lumière{% endblock %}
+{% block description %}Fourteen years from eleven tables and a borrowed espresso machine to three houses and a star.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ page.kicker }}</p>
+    <h1 class="reveal">{{ page.title }}</h1>
+    <p class="lead reveal">{{ page.lede }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <ol class="timeline">
+      {% for t in page.timeline %}
+      <li class="timeline__item reveal">
+        <div class="timeline__year">{{ t.year }}</div>
+        <div class="timeline__card">
+          <h3>{{ t.title }}</h3>
+          <p>{{ t.text }}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>The next chapter books sixty days out.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/about">More about the house ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

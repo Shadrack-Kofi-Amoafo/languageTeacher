@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Reserve a Table — Lumière{% endblock %}
+{% block description %}Bookings open sixty days ahead at all three houses. Table requests confirmed within the hour.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ spec.kicker }}</p>
+    <h1 class="reveal">{{ spec.title }}</h1>
+    <p class="lead reveal">{{ spec.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap split split--wide">
+    <div class="form-card reveal">
+      {% if done %}
+      <div class="form-done">
+        <div class="form-done__icon">✦</div>
+        <h3>{{ spec.success_title }}</h3>
+        <p>{{ spec.success_text }}</p>
+        <div class="form-done__actions">
+          <a class="btn btn--primary" href="/menu">Browse the menu meanwhile</a>
+          <a class="btn btn--secondary" href="/">Back home</a>
+        </div>
+      </div>
+      {% else %}
+      <form method="post" action="/reserve" class="form" novalidate>
+        <div class="form__row form__row--2">
+          {% with f = spec.fields[0] %}{% include "_field_single.html" %}{% endwith %}
+          {% with f = spec.fields[1] %}{% include "_field_single.html" %}{% endwith %}
+        </div>
+        {% for f in spec.fields[2:] %}
+          {% if f.name in ('date',) %}
+          <div class="form__row form__row--3">
+          {% endif %}
+          {% include "_field_single.html" %}
+          {% if f.name in ('guests',) %}
+          </div>
+          {% endif %}
+        {% endfor %}
+        <button class="btn btn--primary btn--block" type="submit">Request the table</button>
+        <p class="form__foot">We reply within the hour during service times. For parties of 7+, email mayfair@lumiere.example.</p>
+      </form>
+      {% endif %}
+    </div>
+
+    <aside class="form-aside reveal">
+      <div class="spec__card">
+        <h3>House hours</h3>
+        <ul class="hours hours--compact">
+          <li><span class="hours__days">Tue – Thu</span><span class="hours__time">18:00 – 22:30</span></li>
+          <li><span class="hours__days">Fri – Sat</span><span class="hours__time">12:00 – 14:30 · 17:30 – 23:00</span></li>
+          <li><span class="hours__days">Sun</span><span class="hours__time">12:00 – 16:00</span></li>
+          <li><span class="hours__days">Mon</span><span class="hours__time">Closed</span></li>
+        </ul>
+      </div>
+      <div class="spec__card">
+        <h3>Worth knowing</h3>
+        <ul class="tip-list tip-list--compact">
+          <li>Tables are held 15 minutes past booking time — the room earns it back after that.</li>
+          <li>The soufflé needs 22 minutes. Order it with your starter; the menu will remind you too.</li>
+          <li>Chef's counter seats (6 per night) are requested, not booked — ask and we'll try.</li>
+          <li>Cancellations are free until noon the same day. After that, karma.</li>
+        </ul>
+      </div>
+      <div class="spec__card spec__card--pairing">
+        <h3>Come hungry</h3>
+        <p class="spec__pairing-name">The tasting menu</p>
+        <p>Nine courses, £135, or with the pairing flight £220. Written each evening from that day's crates — tell us about allergies and we rewrite around you.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

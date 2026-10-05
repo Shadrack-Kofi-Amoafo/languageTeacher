@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}{{ recipe.title }} — Recipes — Lumière{% endblock %}
+{% block description %}{{ recipe.intro[:150] }}{% endblock %}
+
+{% block content %}
+<section class="detail-hero">
+  <div class="wrap detail-hero__inner">
+    <div class="detail-hero__text reveal">
+      <a class="crumb" href="/recipes">‹ Recipe library</a>
+      <p class="kicker">{{ recipe.category }} · {{ recipe.difficulty }} · {{ recipe.servings }}</p>
+      <h1 class="reveal">{{ recipe.title }}</h1>
+      <p class="lead reveal">{{ recipe.intro }}</p>
+      <div class="recipe-facts reveal">
+        <div><span>Active</span><strong>{{ recipe.prep }}</strong></div>
+        {% if recipe.cook %}<div><span>Cook</span><strong>{{ recipe.cook }}</strong></div>{% endif %}
+        {% if recipe.rest %}<div><span>Rest / ferment</span><strong>{{ recipe.rest }}</strong></div>{% endif %}
+        <div><span>Total</span><strong>{{ recipe.total }}</strong></div>
+      </div>
+      <p class="recipe-byline reveal">By <a href="/chefs/{{ recipe.chef }}">{{ get_chef(recipe.chef).name }}</a> — {{ get_chef(recipe.chef).role }}</p>
+    </div>
+    <div class="detail-hero__media reveal">
+      <img src="{{ url_for('static', filename='img/' + recipe.image) }}" alt="{{ recipe.title }}">
+    </div>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap split split--wide">
+    <aside class="reveal">
+      <div class="ingredients-card">
+        <h3>Ingredients</h3>
+        {% for group in recipe.ingredients %}
+        <h4>{{ group.group }}</h4>
+        <ul>
+          {% for item in group["items"] %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endfor %}
+      </div>
+      <div class="ingredients-card ingredients-card--tools">
+        <h3>Equipment</h3>
+        <ul>
+          {% for e in recipe.equipment %}
+          <li>{{ e }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+
+    <div class="steps">
+      <h2 class="reveal">Method</h2>
+      <ol class="method">
+        {% for s in recipe.steps %}
+        <li class="method__step reveal">
+          <div class="method__head">
+            <span class="method__num">{{ '%02d' % s.n }}</span>
+            <div>
+              <h3>{{ s.title }}</h3>
+              <span class="method__duration">{{ s.duration }}</span>
+            </div>
+          </div>
+          <p>{{ s.text }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split split--wide">
+    <div class="reveal">
+      <h2>Notes from the pass</h2>
+      <ul class="tip-list">
+        {% for t in recipe.tips %}
+        <li>{{ t }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="reveal">
+      <h2>Make ahead & pairing</h2>
+      <p class="makeahead">{{ recipe.make_ahead }}</p>
+      <p class="story-note">{{ recipe.pairing }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="section-head section-head--dark reveal"><h2>Next from the library</h2></div>
+    <div class="mini-recipes">
+      {% for r in all_recipes if r.slug != recipe.slug %}
+      <a class="mini-recipe reveal" href="/recipes/{{ r.slug }}">
+        <div class="mini-recipe__media" style="background-image:url('{{ url_for('static', filename='img/' + r.image) }}')"></div>
+        <div class="mini-recipe__body">
+          <span class="recipe-card__cat">{{ r.category }}</span>
+          <h3>{{ r.title }}</h3>
+          <p>{{ r.difficulty }} · {{ r.total }}</p>
+        </div>
+        <span class="recipe-row__arrow">›</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Make it, then taste ours — the comparison is the fun part.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/recipes">More recipes ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

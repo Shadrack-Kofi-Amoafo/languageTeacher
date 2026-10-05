@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Careers — Lumière{% endblock %}
+{% block description %}We hire curiosity and stamina, and teach the rest. Family meal, real schedules, and a yearly paid apprenticeship.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ spec.kicker }}</p>
+    <h1 class="reveal">{{ spec.title }}</h1>
+    <p class="lead reveal">{{ spec.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap split split--wide">
+    <div class="form-card reveal">
+      {% if done %}
+      <div class="form-done">
+        <div class="form-done__icon">✦</div>
+        <h3>{{ spec.success_title }}</h3>
+        <p>{{ spec.success_text }}</p>
+        <div class="form-done__actions">
+          <a class="btn btn--primary" href="/chefs">Meet the brigade</a>
+          <a class="btn btn--secondary" href="/recipes">Read the recipes</a>
+        </div>
+      </div>
+      {% else %}
+      <form method="post" action="/careers" class="form" novalidate>
+        <div class="form__row form__row--2">
+          {% for f in spec.fields[:2] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        <div class="form__row form__row--2">
+          {% with f = spec.fields[2] %}{% include "_field_single.html" %}{% endwith %}
+          {% with f = spec.fields[3] %}{% include "_field_single.html" %}{% endwith %}
+        </div>
+        <div class="form__row form__row--2">
+          {% for f in spec.fields[4:6] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        {% for f in spec.fields[6:] %}{% include "_field_single.html" %}{% endfor %}
+        <button class="btn btn--primary btn--block" type="submit">Apply to cook with us</button>
+        <p class="form__foot">Every application is read by a chef, not a filter. Reply within five working days.</p>
+      </form>
+      {% endif %}
+    </div>
+
+    <aside class="form-aside reveal">
+      <div class="spec__card">
+        <h3>The deal</h3>
+        <ul class="tip-list tip-list--compact">
+          <li>Family meal every shift, cooked by the section you'll join.</li>
+          <li>Rota published two weeks ahead and honoured — weekends off are real, sometimes.</li>
+          <li>One paid stage day so both sides can choose with eyes open.</li>
+          <li>The Scholarship: one fully paid apprenticeship a year for career-changers.</li>
+        </ul>
+      </div>
+      <div class="spec__card spec__card--pairing">
+        <h3>Where you'd start</h3>
+        <p class="spec__pairing-name">The dishpit, possibly</p>
+        <p>Half the brigade started there. It's the best seat in the house for learning how a kitchen actually works — and Liam still pulls the odd shift when the mood takes him.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

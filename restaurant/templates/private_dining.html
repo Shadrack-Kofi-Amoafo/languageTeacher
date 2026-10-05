@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Private Dining — Lumière{% endblock %}
+{% block description %}Three private rooms across two houses, full buyouts, kitchen takeovers and the whole-animal dinner.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ page.kicker }}</p>
+    <h1 class="reveal">{{ page.title }}</h1>
+    <p class="lead reveal">{{ page.lede }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="card-grid card-grid--3">
+      {% for r in page.rooms %}
+      <article class="room-card tilt reveal">
+        <div class="room-card__media" style="background-image:url('{{ url_for('static', filename='img/' + r.image) }}')">
+          <span class="room-card__cap">{{ r.capacity }} guests</span>
+        </div>
+        <div class="room-card__body">
+          <span class="room-card__loc">{{ r.location }}</span>
+          <h3>{{ r.name }}</h3>
+          <p>{{ r.text }}</p>
+          <p class="room-card__price">{{ r.price }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>Or take the whole thing.</h2><p>Three formats for evenings that need more than a room.</p></div>
+    <div class="value-grid">
+      {% for x in page.experiences %}
+      <div class="value-card reveal">
+        <h3>{{ x.title }}</h3>
+        <p>{{ x.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="section-head section-head--dark reveal"><h2>How it works.</h2><p>Three steps between an idea and a seated room.</p></div>
+    <div class="process">
+      {% for p in page.process %}
+      <div class="process__step reveal">
+        <span class="process__num">{{ p.step }}</span>
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="center reveal">
+      <a class="btn btn--primary" href="/catering">Start with the shape of it</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>The room is the easy part. The menu is the fun part.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/catering">Plan an event</a>
+      <a class="btn btn--ghost-dark" href="/gift-cards">Gift cards ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

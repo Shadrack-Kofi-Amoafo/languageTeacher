@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Locations & Hours — Lumière{% endblock %}
+{% block description %}Three houses: Mayfair (the original), Soho (the loud sibling) and Kings Cross (the grand ticket hall).{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">Locations</p>
+    <h1 class="reveal">Three houses, one rulebook.</h1>
+    <p class="lead reveal">Same farm, same fire, same stubborn standards — three rooms with three different pulses. Pick the one that matches the evening.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {% for loc in locations %}
+    <div class="location {% if loop.index is even %}location--flip{% endif %} reveal">
+      <div class="location__media" style="background-image:url('{{ url_for('static', filename='img/' + loc.image) }}')">
+        {% if loc.flagship %}<span class="location__flag">The original · Est. {{ loc.opened }}</span>{% endif %}
+      </div>
+      <div class="location__body">
+        <h2>{{ loc.name }}</h2>
+        <p class="location__meta">{{ loc.seats }} seats · Opened {{ loc.opened }}{% if loc.chef %} · Run by <a href="/chefs/{{ loc.chef }}">{{ get_chef(loc.chef).name }}</a>{% endif %}</p>
+        {% for p in loc.description %}<p>{{ p }}</p>{% endfor %}
+        <ul class="location__features">
+          {% for f in loc.features %}<li>{{ f }}</li>{% endfor %}
+        </ul>
+        <div class="location__details">
+          <div>
+            <h4>Hours</h4>
+            <ul class="hours hours--compact">
+              {% for h in loc.hours %}
+              <li><span class="hours__days">{{ h.days }}</span><span class="hours__time">{{ h.time }}</span></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div>
+            <h4>Find us</h4>
+            <address>
+              {{ loc.address }}<br>
+              <a href="tel:{{ loc.phone | replace(' ', '') }}">{{ loc.phone }}</a><br>
+              <a href="mailto:{{ loc.email }}">{{ loc.email }}</a>
+            </address>
+            <div class="location__ctas">
+              <a class="btn btn--primary" href="/reserve">Reserve here</a>
+              <a class="btn btn--secondary" href="/private-dining">Private dining ›</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Undecided? Let the kitchen choose for you.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/events">See what's on ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

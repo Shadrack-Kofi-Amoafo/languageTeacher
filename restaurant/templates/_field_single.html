@@ -1,0 +1,17 @@
+{# One field, standalone. Expects: f, errors, values #}
+<div class="field {% if errors.get(f.name) %}field--error{% endif %}">
+  <label for="f-{{ f.name }}">{{ f.label }}{% if f.required %} <span class="req">*</span>{% endif %}</label>
+  {% if f.type == 'select' %}
+  <select id="f-{{ f.name }}" name="{{ f.name }}">
+    <option value="" {% if not values.get(f.name) %}selected{% endif %} disabled hidden>Choose…</option>
+    {% for opt in f.options %}
+    <option value="{{ opt }}" {% if values.get(f.name) == opt %}selected{% endif %}>{{ opt }}</option>
+    {% endfor %}
+  </select>
+  {% elif f.type == 'textarea' %}
+  <textarea id="f-{{ f.name }}" name="{{ f.name }}" rows="4" placeholder="{{ f.placeholder or '' }}">{{ values.get(f.name, '') }}</textarea>
+  {% else %}
+  <input id="f-{{ f.name }}" name="{{ f.name }}" type="{{ f.type }}" value="{{ values.get(f.name, '') }}" placeholder="{{ f.placeholder or '' }}">
+  {% endif %}
+  {% if errors.get(f.name) %}<p class="field__error">{{ errors[f.name] }}</p>{% endif %}
+</div>

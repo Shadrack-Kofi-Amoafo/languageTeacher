@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Lumière — Modern Fine Dining{% endblock %}</title>
+  <meta name="description" content="{% block description %}Seasonal fine dining. One farm, one fire, one star. Reserve a table at Lumière.{% endblock %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>✦</text></svg>">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="/">Lumière<span class="nav__logo-dot">✦</span></a>
+    <button class="nav__burger" id="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <ul class="nav__links" id="nav-links">
+      <li><a href="/menu" {% if request.path.startswith('/menu') %}class="is-active"{% endif %}>Menu</a></li>
+      <li><a href="/recipes" {% if request.path.startswith('/recipes') %}class="is-active"{% endif %}>Recipes</a></li>
+      <li><a href="/chefs" {% if request.path.startswith('/chefs') %}class="is-active"{% endif %}>Chefs</a></li>
+      <li><a href="/events" {% if request.path.startswith('/events') %}class="is-active"{% endif %}>Events</a></li>
+      <li><a href="/locations" {% if request.path.startswith('/locations') %}class="is-active"{% endif %}>Locations</a></li>
+      <li><a href="/about" {% if request.path.startswith('/about') or request.path.startswith('/story') or request.path.startswith('/sustainability') %}class="is-active"{% endif %}>About</a></li>
+      <li><a href="/contact" {% if request.path.startswith('/contact') %}class="is-active"{% endif %}>Contact</a></li>
+    </ul>
+    <a class="nav__cta" href="/reserve">Reserve</a>
+  </div>
+</nav>
+
+<div class="flash-zone">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash flash--{{ category }}">
+        <span class="flash__icon">✓</span>
+        <div class="flash__body">{{ message }}</div>
+        <button class="flash__close" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button>
+      </div>
+    {% endfor %}
+  {% endwith %}
+</div>
+
+<main id="main">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <div class="footer__logo">Lumière<span>✦</span></div>
+      <p class="footer__blurb">{{ footer.blurb }}</p>
+      <p class="footer__hours-note">Est. {{ restaurant.est }} · Mayfair · Soho · Kings Cross</p>
+    </div>
+    {% for column in footer.columns %}
+    <div class="footer__col">
+      <h4>{{ column.title }}</h4>
+      <ul>
+        {% for label, href in column.links %}
+        <li><a href="{{ href }}">{{ label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="wrap footer__bottom">
+    <p>{{ footer.fine_print }}</p>
+    <p class="footer__meta">© {{ now_year }} Lumière · A fictional restaurant · Built with Flask · <a href="/health">49 pages</a></p>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='vendor/three.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/three-hero.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+</html>

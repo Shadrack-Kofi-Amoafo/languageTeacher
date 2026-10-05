@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Feedback — Lumière{% endblock %}
+{% block description %}Praise goes on the kitchen wall. Criticism goes into the morning briefing. Both verbatim.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ spec.kicker }}</p>
+    <h1 class="reveal">{{ spec.title }}</h1>
+    <p class="lead reveal">{{ spec.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap split split--wide">
+    <div class="form-card reveal">
+      {% if done %}
+      <div class="form-done">
+        <div class="form-done__icon">✦</div>
+        <h3>{{ spec.success_title }}</h3>
+        <p>{{ spec.success_text }}</p>
+        <div class="form-done__actions">
+          <a class="btn btn--primary" href="/menu">Browse the menu</a>
+          <a class="btn btn--secondary" href="/reserve">Book the next one</a>
+        </div>
+      </div>
+      {% else %}
+      <form method="post" action="/feedback" class="form" novalidate>
+        <div class="form__row form__row--2">
+          {% for f in spec.fields[:2] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        <div class="form__row form__row--2">
+          {% for f in spec.fields[2:4] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        {% with f = spec.fields[4] %}{% include "_field_single.html" %}{% endwith %}
+        <fieldset class="rating-block">
+          <legend>Rate the evening</legend>
+          {% for f in spec.fields[5:9] %}
+          <div class="field field--rating">
+            <label>{{ f.label }}</label>
+            <div class="rating">
+              {% for i in [5,4,3,2,1] %}
+              <input type="radio" id="{{ f.name }}-{{ i }}" name="{{ f.name }}" value="{{ i }}"
+                     {% if (values.get(f.name) or '5') | string == i | string %}checked{% endif %}>
+              <label for="{{ f.name }}-{{ i }}" title="{{ i }} star{{ 's' if i > 1 }}">★</label>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </fieldset>
+        {% for f in spec.fields[9:] %}{% include "_field_single.html" %}{% endfor %}
+        <button class="btn btn--primary btn--block" type="submit">Send it — honestly</button>
+        <p class="form__foot">Read aloud at the next morning's briefing, by name. Choose your words with power.</p>
+      </form>
+      {% endif %}
+    </div>
+
+    <aside class="form-aside reveal">
+      <div class="spec__card">
+        <h3>Where it lands</h3>
+        <ul class="tip-list tip-list--compact">
+          <li><strong>Praise</strong> — printed and pinned on the kitchen wall, verbatim, typos included.</li>
+          <li><strong>Criticism</strong> — service notes the next morning, with names attached to fixes.</li>
+          <li><strong>Replies</strong> — only if you leave an email; otherwise it stays between us and the wall.</li>
+        </ul>
+      </div>
+      <div class="spec__card spec__card--pairing">
+        <h3>Recent wall additions</h3>
+        <p>“I have thought about this burrata weekly for eight months. Send help.” — Grace L., Mayfair</p>
+        <p class="story-note">“The skin. THE SKIN. Like glass.” — Lena T., on the duck</p>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

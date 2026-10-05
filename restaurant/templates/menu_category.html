@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}{{ category.name }} — Menu — Lumière{% endblock %}
+{% block description %}{{ category.tagline }} — {{ category.description[0][:120] }}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--split">
+  <div class="wrap page-hero--split__inner">
+    <div>
+      <p class="kicker reveal">{{ category.kicker }}</p>
+      <h1 class="reveal">{{ category.tagline }}</h1>
+      {% for p in category.description %}<p class="lead reveal">{{ p }}</p>{% endfor %}
+      <blockquote class="chef-quote reveal">
+        “{{ category.chef_quote }}”
+        <cite>— <a href="/chefs/{{ category.chef_slug }}">{{ get_chef(category.chef_slug).name }}</a>, {{ get_chef(category.chef_slug).role }}</cite>
+      </blockquote>
+    </div>
+    <div class="page-hero--split__media reveal" style="background-image:url('{{ url_for('static', filename='img/' + category.image) }}')"></div>
+  </div>
+</section>
+
+{% if dishes %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Signatures on this section</h2>
+      <p>Dishes with their own page — the ones we'd order first.</p>
+    </div>
+    <div class="card-grid">
+      {% for d in dishes %}
+      <a class="dish-card tilt reveal" href="/menu/dish/{{ d.slug }}">
+        <div class="dish-card__media" style="background-image:url('{{ url_for('static', filename='img/' + d.image) }}')">
+          {% if d.badge %}<span class="dish-card__badge">{{ d.badge }}</span>{% endif %}
+        </div>
+        <div class="dish-card__body">
+          <div class="dish-card__top">
+            <h3>{{ d.name }}</h3>
+            <span class="price">£{{ d.price }}</span>
+          </div>
+          <p>{{ d.tagline }}</p>
+          <div class="dish-card__meta">
+            <span class="stars">★★★★★</span>
+            <span class="dish-card__rating">{{ d.rating }} · {{ '{:,}'.format(d.rating_count) }} reviews</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section {% if dishes %}section--gray{% endif %}">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>The full list</h2>
+      <p>Served nightly until close. Availability follows the boats and the farm — ask, and we'll tell you tonight's story.</p>
+    </div>
+    <div class="menu-list">
+      {% for item in extras %}
+      <div class="menu-item reveal">
+        <div class="menu-item__head">
+          <h3>{{ item.name }}</h3>
+          <span class="menu-item__dots" aria-hidden="true"></span>
+          <span class="price">£{{ item.price }}</span>
+        </div>
+        <p class="menu-item__desc">{{ item.desc }}</p>
+        {% if item.tags %}
+        <div class="menu-item__tags">
+          {% for t in item.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% if category.slug == 'drinks' %}
+    <p class="menu-note reveal">The full cellar list — four hundred bottles, half of them under £70 — changes weekly. Ask for the sommelier; arguing about wine is the house sport.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="kicker">Keep exploring</p>
+      <h2>Five other arguments.</h2>
+      <p class="lead">The menu is a circle; start anywhere.</p>
+    </div>
+    <div class="menu-pill-stack reveal">
+      {% for c in categories if c.slug != category.slug %}
+      <a class="menu-pill" href="/menu/{{ c.slug }}">
+        <span class="menu-pill__name">{{ c.name }}</span>
+        <span class="menu-pill__tagline">{{ c.tagline }}</span>
+        <span class="menu-pill__arrow">›</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Reading it is free. Eating it books out.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/menu">Full menu ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

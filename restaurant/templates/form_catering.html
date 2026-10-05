@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Catering & Events — Lumière{% endblock %}
+{% block description %}Weddings, launches, long-table dinners and buyouts. Within the M25 we bring the grill.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ spec.kicker }}</p>
+    <h1 class="reveal">{{ spec.title }}</h1>
+    <p class="lead reveal">{{ spec.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap split split--wide">
+    <div class="form-card reveal">
+      {% if done %}
+      <div class="form-done">
+        <div class="form-done__icon">✦</div>
+        <h3>{{ spec.success_title }}</h3>
+        <p>{{ spec.success_text }}</p>
+        <div class="form-done__actions">
+          <a class="btn btn--primary" href="/private-dining">See the private rooms</a>
+          <a class="btn btn--secondary" href="/menu">Browse the menu</a>
+        </div>
+      </div>
+      {% else %}
+      <form method="post" action="/catering" class="form" novalidate>
+        <div class="form__row form__row--3">
+          {% for f in spec.fields[:3] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        {% with f = spec.fields[3] %}{% include "_field_single.html" %}{% endwith %}
+        <div class="form__row form__row--3">
+          {% for f in spec.fields[4:7] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        {% for f in spec.fields[7:] %}{% include "_field_single.html" %}{% endfor %}
+        <button class="btn btn--primary btn--block" type="submit">Tell us the shape of it</button>
+        <p class="form__foot">Our events lead calls within two working days. Menus follow within the week.</p>
+      </form>
+      {% endif %}
+    </div>
+
+    <aside class="form-aside reveal">
+      <div class="spec__card">
+        <h3>The rooms, if you'd rather</h3>
+        <ul class="tip-list tip-list--compact">
+          <li><strong>The Chef's Table</strong> — Mayfair · 6–8 guests · from £180 pp</li>
+          <li><strong>The Gallery Mezzanine</strong> — Kings Cross · 10–18 · from £120 pp</li>
+          <li><strong>The Print Room</strong> — Soho · 8–14 · from £95 pp</li>
+          <li><strong>Full buyouts</strong> — 38 to 54 guests, one menu written for the night</li>
+        </ul>
+      </div>
+      <div class="spec__card">
+        <h3>What we bring</h3>
+        <ul class="tip-list tip-list--compact">
+          <li>Within the M25: the grill, the fire, and the fire-lighter.</li>
+          <li>Everywhere: the brigade, the butcher box, and the pastry cases.</li>
+          <li>Staff meal philosophy applies — your crew eats as well as your guests.</li>
+          <li>Zero-waste commitment travels: we leave nothing but breadcrumbs.</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

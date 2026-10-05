@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}About — Lumière{% endblock %}
+{% block description %}A restaurant built backwards: kitchen first, room second. Everything from scratch, bought whole, used entirely.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ page.kicker }}</p>
+    <h1 class="reveal">{{ page.title }}</h1>
+    <p class="lead reveal">{{ page.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap stats-band__grid">
+    {% for s in page.stats %}
+    <div class="stat reveal">
+      <div class="stat__value">{{ s.value }}</div>
+      <div class="stat__label">{{ s.label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap prose-blocks">
+    {% for s in page.sections %}
+    <div class="prose reveal">
+      <h2>{{ s.title }}</h2>
+      {% for p in s.text %}<p>{{ p }}</p>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="section-head section-head--dark reveal">
+      <h2>What we optimise for.</h2>
+      <p>Four values, written on the kitchen door. In pencil, because the door gets repainted.</p>
+    </div>
+    <div class="value-grid">
+      {% for v in page['values'] %}
+      <div class="value-card reveal">
+        <div class="value-card__icon">{{ v.icon }}</div>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="kicker">The people</p>
+      <h2>Seventeen cooks, one quiet minute.</h2>
+      <p class="lead">The brigade runs from a founder who still writes the menu in an evening to apprentices two months off the street. Meet them all — the fire chef, the ferment librarian, the stopwatch pastry chef.</p>
+      <a class="btn btn--primary" href="/chefs">Meet the brigade</a>
+    </div>
+    <div class="chef-strip reveal">
+      {% for c in all_chefs %}
+      <a class="chef-chip" href="/chefs/{{ c.slug }}">
+        <img src="{{ url_for('static', filename='img/' + c.image) }}" alt="{{ c.name }}" loading="lazy">
+        <span>{{ c.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Come see whether we're telling the truth.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/story">Read our story ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Events — Lumière{% endblock %}
+{% block description %}Masterclasses, supper clubs and one-off dinners. Nothing repeats exactly.{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--tinted">
+  <div class="wrap">
+    <p class="kicker reveal">{{ page.kicker }}</p>
+    <h1 class="reveal">{{ page.title }}</h1>
+    <p class="lead reveal">{{ page.lede }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>Autumn / Winter calendar</h2><p>Bookable below while seats last. Badge colours tell the truth about availability.</p></div>
+    <div class="event-list">
+      {% for e in page.upcoming %}
+      <article class="event reveal">
+        <div class="event__date">
+          <span class="event__day">{{ e.date }}</span>
+          <span class="event__weekday">{{ e.day }}</span>
+          <span class="event__time">{{ e.time }}</span>
+        </div>
+        <div class="event__body">
+          <div class="event__title-row">
+            <h3>{{ e.title }}</h3>
+            <span class="event__badge {% if 'Sold out' in e.badge %}event__badge--out{% endif %}">{{ e.badge }}</span>
+          </div>
+          <p class="event__text">{{ e.text }}</p>
+          <p class="event__meta">
+            Hosted by <a href="/chefs/{{ e.chef }}">{{ get_chef(e.chef).name }}</a>
+            · {{ get_chef(e.chef).role }}
+          </p>
+        </div>
+        <div class="event__side">
+          <span class="event__price">{{ e.price }}</span>
+          <a class="btn btn--secondary" href="/contact">Enquire</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="section-head section-head--dark reveal">
+      <h2>The standing clubs.</h2>
+      <p>Monthly, loyal, and frequently full. Ask at any house to join the list.</p>
+    </div>
+    <div class="club-grid">
+      {% for c in page.clubs %}
+      <div class="club reveal">
+        <span class="club__freq">{{ c.freq }}</span>
+        <h3>{{ c.name }}</h3>
+        <p>{{ c.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Planning something of your own?</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/catering">Catering & events</a>
+      <a class="btn btn--ghost-dark" href="/private-dining">Private dining ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
