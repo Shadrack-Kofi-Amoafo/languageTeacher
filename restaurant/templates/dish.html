@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}{{ dish.name }} — Lumière{% endblock %}
+{% block description %}{{ dish.tagline }}{% endblock %}
+
+{% block content %}
+<section class="detail-hero">
+  <div class="wrap detail-hero__inner">
+    <div class="detail-hero__text reveal">
+      <a class="crumb" href="/menu/{{ dish.category }}">‹ {{ dish.category | capitalize }}</a>
+      <p class="kicker reveal">{{ dish.badge }} · {{ dish.course }} · {{ dish.serves }}</p>
+      <h1 class="reveal">{{ dish.name }}</h1>
+      <p class="lead reveal">{{ dish.tagline }}</p>
+      <div class="detail-hero__meta reveal">
+        <span class="price price--xl">£{{ dish.price }}</span>
+        <span class="stars">★★★★★</span>
+        <span class="detail-hero__rating">{{ dish.rating }} · {{ '{:,}'.format(dish.rating_count) }} diner reviews</span>
+      </div>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+        <a class="btn btn--ghost" href="/recipes">Cook something like it ›</a>
+      </div>
+    </div>
+    <div class="detail-hero__media reveal">
+      <img src="{{ url_for('static', filename='img/' + dish.image) }}" alt="{{ dish.name }}">
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split split--wide">
+    <div class="prose reveal">
+      <h2>The dish, properly.</h2>
+      {% for p in dish.description %}<p>{{ p }}</p>{% endfor %}
+      <p class="story-note">{{ dish.story }}</p>
+    </div>
+    <aside class="spec reveal">
+      <div class="spec__card">
+        <h3>At a glance</h3>
+        <dl>
+          <div><dt>Course</dt><dd>{{ dish.course }}</dd></div>
+          <div><dt>Serves</dt><dd>{{ dish.serves }}</dd></div>
+          <div><dt>Prep & service</dt><dd>{{ dish.prep }}</dd></div>
+          <div><dt>Allergens</dt><dd>{% if dish.allergens %}{{ dish.allergens | join(', ') }}{% else %}None declared{% endif %}</dd></div>
+        </dl>
+      </div>
+      <div class="spec__card">
+        <h3>Nutrition <span>(per serving)</span></h3>
+        <div class="nutrition">
+          <div><strong>{{ dish.nutrition.calories }}</strong><span>kcal</span></div>
+          <div><strong>{{ dish.nutrition.protein }}</strong><span>protein</span></div>
+          <div><strong>{{ dish.nutrition.carbs }}</strong><span>carbs</span></div>
+          <div><strong>{{ dish.nutrition.fat }}</strong><span>fat</span></div>
+        </div>
+      </div>
+      <div class="spec__card spec__card--pairing">
+        <h3>The pairing</h3>
+        <p class="spec__pairing-name">{{ dish.pairing.name }}</p>
+        <p>{{ dish.pairing.note }}</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>How it comes together</h2><p>The dish in three movements, from sourcing to the thirty seconds before it lands.</p></div>
+    <div class="process">
+      {% for t in dish.timeline %}
+      <div class="process__step reveal">
+        <span class="process__num">{{ t.step }}</span>
+        <h3>{{ t.title }}</h3>
+        <p>{{ t.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split split--wide">
+    <div class="reveal">
+      <h2>What's on the plate.</h2>
+      <ul class="ing-list">
+        {% for i in dish.ingredients %}
+        <li>{{ i }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="reveal">
+      <h2>The cook behind it.</h2>
+      <a class="chef-inline" href="/chefs/{{ dish.chef }}">
+        <img src="{{ url_for('static', filename='img/' + get_chef(dish.chef).image) }}" alt="{{ get_chef(dish.chef).name }}">
+        <div>
+          <strong>{{ get_chef(dish.chef).name }}</strong>
+          <span>{{ get_chef(dish.chef).role }}</span>
+          <p>“{{ get_chef(dish.chef).quote }}”</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>The diners' word</h2><p>Unedited, from the feedback book and the inbox.</p></div>
+    <div class="review-grid">
+      {% for r in dish.reviews %}
+      <blockquote class="review reveal">
+        <span class="stars">★★★★★</span>
+        <p>“{{ r.text }}”</p>
+        <footer>{{ r.author }} · {{ r.source }}</footer>
+      </blockquote>
+      {% endfor %}
+      <div class="review review--cta reveal">
+        <h3>Eaten it? Have opinions?</h3>
+        <p>Feedback goes into the next morning's service notes, verbatim.</p>
+        <a class="btn btn--secondary" href="/feedback">Leave feedback</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if related %}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>Same section, same standards</h2></div>
+    <div class="card-grid">
+      {% for d in related %}
+      <a class="dish-card tilt reveal" href="/menu/dish/{{ d.slug }}">
+        <div class="dish-card__media" style="background-image:url('{{ url_for('static', filename='img/' + d.image) }}')">
+          {% if d.badge %}<span class="dish-card__badge">{{ d.badge }}</span>{% endif %}
+        </div>
+        <div class="dish-card__body">
+          <div class="dish-card__top"><h3>{{ d.name }}</h3><span class="price">£{{ d.price }}</span></div>
+          <p>{{ d.tagline }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Everything above is available tonight. Until it isn't.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/menu/{{ dish.category }}">Back to {{ dish.category | lower }} ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

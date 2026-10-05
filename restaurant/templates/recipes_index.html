@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Recipe Library — Lumière{% endblock %}
+{% block description %}Eight restaurant recipes written for home kitchens: pasta, sourdough, sauces, stock, pastry and fire.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">The recipe library</p>
+    <h1 class="reveal">Everything we know,<br>on a page.</h1>
+    <p class="lead reveal">Eight recipes from the Lumière kitchen, rewritten for a home cook with a reasonable kitchen and a working timer. No secrets withheld — the testing notes, the temperatures, and the mistakes to avoid are all in there.</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="recipe-list">
+      {% for r in all_recipes %}
+      <a class="recipe-row reveal" href="/recipes/{{ r.slug }}">
+        <div class="recipe-row__media" style="background-image:url('{{ url_for('static', filename='img/' + r.image) }}')"></div>
+        <div class="recipe-row__body">
+          <div class="recipe-row__meta">
+            <span class="recipe-card__cat">{{ r.category }}</span>
+            <span class="recipe-row__dot">·</span>
+            <span>{{ r.difficulty }}</span>
+            <span class="recipe-row__dot">·</span>
+            <span>{{ r.total }}</span>
+            <span class="recipe-row__dot">·</span>
+            <span>{{ r.servings }}</span>
+          </div>
+          <h3>{{ r.title }}</h3>
+          <p>{{ r.intro[:170] }}…</p>
+          <span class="recipe-row__chef">By <strong>{{ get_chef(r.chef).name }}</strong>, {{ get_chef(r.chef).role }}</span>
+        </div>
+        <span class="recipe-row__arrow">›</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="kicker">The kitchen door</p>
+      <h2>Or learn it standing up.</h2>
+      <p class="lead">Masterclasses run monthly — butchery with Liam, soufflés with Yuki, whole fish with Amara. Twelve to twenty seats, and every one of them over a cutting board.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="/events">See the calendar</a>
+        <a class="btn btn--ghost" href="/careers">Work here ›</a>
+      </div>
+    </div>
+    <ul class="biglist reveal">
+      <li><strong>01</strong><span>Read the whole recipe before you start. Every time. Yes, that time too.</span></li>
+      <li><strong>02</strong><span>Weigh everything for the first three attempts. Then taste with your eyes.</span></li>
+      <li><strong>03</strong><span>Resting is cooking. The pause between heat and plate is where it all settles.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Cook one this week. Then book a table and compare.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/menu">The restaurant versions ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

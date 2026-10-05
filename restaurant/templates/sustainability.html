@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Sustainability — Lumière{% endblock %}
+{% block description %}Zero waste is a menu item. 98% carcass utilisation, one farm, four boats, forty live ferments.{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--tinted">
+  <div class="wrap">
+    <p class="kicker reveal">{{ page.kicker }}</p>
+    <h1 class="reveal">{{ page.title }}</h1>
+    <p class="lead reveal">{{ page.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap stats-band__grid">
+    {% for s in page.stats %}
+    <div class="stat reveal">
+      <div class="stat__value">{{ s.value }}</div>
+      <div class="stat__label">{{ s.label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Four pillars, no greenwash.</h2>
+      <p>Each with a number attached, because a promise you can't measure is just decoration.</p>
+    </div>
+    <div class="pillar-grid">
+      {% for p in page.pillars %}
+      <div class="pillar reveal">
+        <div class="pillar__metric">{{ p.metric }}</div>
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="section-head section-head--dark reveal">
+      <h2>The supply chain, in full.</h2>
+      <p>Named partners, named boats, named fields. If we can't name it, we don't serve it.</p>
+    </div>
+    <div class="partner-list">
+      {% for p in page.partners %}
+      <div class="partner reveal">
+        <h3>{{ p.name }}</h3>
+        <p>{{ p.detail }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Taste the difference a supply chain makes.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/menu">Explore the menu</a>
+      <a class="btn btn--ghost-dark" href="/gallery">See the farm ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

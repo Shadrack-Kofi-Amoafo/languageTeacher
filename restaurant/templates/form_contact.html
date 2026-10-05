@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Contact — Lumière{% endblock %}
+{% block description %}Press, partnerships, lost property or a hello — answered by a person within one working day.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">{{ spec.kicker }}</p>
+    <h1 class="reveal">{{ spec.title }}</h1>
+    <p class="lead reveal">{{ spec.lede }}</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap split split--wide">
+    <div class="form-card reveal">
+      {% if done %}
+      <div class="form-done">
+        <div class="form-done__icon">✦</div>
+        <h3>{{ spec.success_title }}</h3>
+        <p>{{ spec.success_text }}</p>
+        <div class="form-done__actions">
+          <a class="btn btn--primary" href="/menu">Browse the menu</a>
+          <a class="btn btn--secondary" href="/">Back home</a>
+        </div>
+      </div>
+      {% else %}
+      <form method="post" action="/contact" class="form" novalidate>
+        <div class="form__row form__row--2">
+          {% for f in spec.fields[:2] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        <div class="form__row form__row--2">
+          {% for f in spec.fields[2:4] %}{% include "_field_single.html" %}{% endfor %}
+        </div>
+        {% for f in spec.fields[4:] %}{% include "_field_single.html" %}{% endfor %}
+        <button class="btn btn--primary btn--block" type="submit">Send the message</button>
+        <p class="form__foot">One working day for a reply, except Friday–Saturday service — then Monday.</p>
+      </form>
+      {% endif %}
+    </div>
+
+    <aside class="form-aside reveal">
+      <div class="spec__card">
+        <h3>Direct lines</h3>
+        <address class="address-block">
+          <strong>Mayfair</strong> · 18 Chesterfield Mews, W1J<br>+44 (0)20 7946 0012<br>
+          <strong>Soho</strong> · 4 Carlisle Passage, W1D<br>+44 (0)20 7946 0102<br>
+          <strong>Kings Cross</strong> · The Old Ticket Hall, N1C<br>+44 (0)20 7946 0187
+        </address>
+      </div>
+      <div class="spec__card">
+        <h3>Faster routes</h3>
+        <ul class="tip-list tip-list--compact">
+          <li><strong>Feedback on a meal</strong> — <a href="/feedback">the feedback page</a> reaches the kitchen faster.</li>
+          <li><strong>Events & catering</strong> — <a href="/catering">the events form</a> gets you a call in 48 h.</li>
+          <li><strong>Lost property</strong> — we currently hold nine umbrellas, two scarves and one trombone. Describe yours.</li>
+          <li><strong>Press</strong> — we can usually arrange kitchen access with a week's notice.</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

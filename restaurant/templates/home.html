@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}Lumière — Dinner, arranged like light.{% endblock %}
+{% block body_class %}page-home{% endblock %}
+
+{% block content %}
+
+<!-- ================= 3D HERO ================= -->
+<section class="hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero__vignette"></div>
+  <div class="hero__content wrap">
+    <p class="hero__kicker reveal">{{ home.hero.kicker }}</p>
+    <h1 class="hero__headline reveal">
+      {% for line in home.hero.headline.split('\n') %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+    </h1>
+    <p class="hero__sub reveal">{{ home.hero.sub }}</p>
+    <div class="hero__ctas reveal">
+      <a class="btn btn--primary" href="{{ home.hero.primary_cta.href }}">{{ home.hero.primary_cta.label }}</a>
+      <a class="btn btn--ghost" href="{{ home.hero.secondary_cta.href }}">{{ home.hero.secondary_cta.label }}</a>
+    </div>
+    <p class="hero__hint reveal">{{ home.hero.scroll_hint }}</p>
+  </div>
+  <div class="hero__scroll" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="stats-band">
+  <div class="wrap stats-band__grid">
+    {% for s in stats %}
+    <div class="stat reveal">
+      <div class="stat__value">{{ s.value }}</div>
+      <div class="stat__label">{{ s.label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ================= SIGNATURES ================= -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>{{ home.signature_title }}</h2>
+      <p>{{ home.signature_sub }}</p>
+    </div>
+    <div class="card-grid">
+      {% for d in signatures %}
+      <a class="dish-card tilt reveal" href="/menu/dish/{{ d.slug }}">
+        <div class="dish-card__media" style="background-image:url('{{ url_for('static', filename='img/' + d.image) }}')">
+          {% if d.badge %}<span class="dish-card__badge">{{ d.badge }}</span>{% endif %}
+        </div>
+        <div class="dish-card__body">
+          <div class="dish-card__top">
+            <h3>{{ d.name }}</h3>
+            <span class="price">£{{ d.price }}</span>
+          </div>
+          <p>{{ d.tagline }}</p>
+          <div class="dish-card__meta">
+            <span class="stars">★★★★★</span>
+            <span class="dish-card__rating">{{ d.rating }} · {{ '{:,}'.format(d.rating_count) }} reviews</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="center reveal"><a class="btn btn--secondary" href="/menu">The full menu</a></div>
+  </div>
+</section>
+
+<!-- ================= MENU TEASER (dark) ================= -->
+<section class="section section--dark">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="kicker">{{ home.menu_teaser.kicker }}</p>
+      <h2>{{ home.menu_teaser.title }}</h2>
+      <p class="lead">{{ home.menu_teaser.text }}</p>
+      <a class="btn btn--primary" href="/menu">{{ home.menu_teaser.cta }}</a>
+    </div>
+    <div class="menu-pill-stack reveal">
+      {% for c in categories %}
+      <a class="menu-pill" href="/menu/{{ c.slug }}">
+        <span class="menu-pill__name">{{ c.name }}</span>
+        <span class="menu-pill__tagline">{{ c.tagline }}</span>
+        <span class="menu-pill__arrow">›</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHEFS TEASER ================= -->
+<section class="section">
+  <div class="wrap split split--reverse">
+    <div class="chef-strip reveal">
+      {% for c in all_chefs[:3] %}
+      <a class="chef-chip" href="/chefs/{{ c.slug }}">
+        <img src="{{ url_for('static', filename='img/' + c.image) }}" alt="{{ c.name }}" loading="lazy">
+        <span>{{ c.name }}</span>
+      </a>
+      {% endfor %}
+      {% for c in all_chefs[3:] %}
+      <a class="chef-chip chef-chip--sm" href="/chefs/{{ c.slug }}">
+        <img src="{{ url_for('static', filename='img/' + c.image) }}" alt="{{ c.name }}" loading="lazy">
+        <span>{{ c.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="reveal">
+      <p class="kicker">{{ home.chefs_teaser.kicker }}</p>
+      <h2>{{ home.chefs_teaser.title }}</h2>
+      <p class="lead">{{ home.chefs_teaser.text }}</p>
+      <a class="btn btn--secondary" href="/chefs">{{ home.chefs_teaser.cta }}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RECIPES TEASER (gray) ================= -->
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">{{ home.recipes_teaser.kicker }}</p>
+      <h2>{{ home.recipes_teaser.title }}</h2>
+      <p class="lead">{{ home.recipes_teaser.text }}</p>
+    </div>
+    <div class="card-grid card-grid--3">
+      {% for r in all_recipes[:3] %}
+      <a class="recipe-card tilt reveal" href="/recipes/{{ r.slug }}">
+        <div class="recipe-card__media" style="background-image:url('{{ url_for('static', filename='img/' + r.image) }}')"></div>
+        <div class="recipe-card__body">
+          <span class="recipe-card__cat">{{ r.category }}</span>
+          <h3>{{ r.title }}</h3>
+          <p class="recipe-card__meta">{{ r.difficulty }} · {{ r.total }} · {{ r.servings }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="center reveal"><a class="btn btn--secondary" href="/recipes">{{ home.recipes_teaser.cta }}</a></div>
+  </div>
+</section>
+
+<!-- ================= PRESS ================= -->
+<section class="section section--dark">
+  <div class="wrap">
+    <div class="press-grid">
+      {% for p in press %}
+      <blockquote class="press-quote reveal">
+        <p>“{{ p.quote }}”</p>
+        <cite>{{ p.source }}</cite>
+      </blockquote>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOURS ================= -->
+<section class="section section--gray">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="kicker">Hours & houses</p>
+      <h2>Open when the fire is lit.</h2>
+      <p class="lead">Three houses, one kitchen philosophy. Book the room that suits the evening — or the train.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+        <a class="btn btn--secondary" href="/locations">All locations ›</a>
+      </div>
+    </div>
+    <ul class="hours reveal">
+      {% for h in home.hours %}
+      <li><span class="hours__days">{{ h.days }}</span><span class="hours__time">{{ h.time }}</span></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% endblock %}

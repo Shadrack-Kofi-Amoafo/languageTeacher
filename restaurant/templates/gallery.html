@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Gallery — Lumière{% endblock %}
+{% block description %}The pass, the fire, the farm and the rooms — the restaurant in pictures.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap">
+    <p class="kicker reveal">Gallery</p>
+    <h1 class="reveal">The house, in pictures.</h1>
+    <p class="lead reveal">Kitchen, rooms, farm and cellar — shot on ordinary evenings, because extraordinary evenings look the same through a lens.</p>
+  </div>
+</section>
+
+<section class="section section--gray">
+  <div class="wrap">
+    <div class="masonry">
+      {% for img in images %}
+      <figure class="masonry__item reveal">
+        <img src="{{ url_for('static', filename='img/' + img.src) }}" alt="{{ img.title }}" loading="lazy">
+        <figcaption>
+          <span class="masonry__tag">{{ img.tag }}</span>
+          <strong>{{ img.title }}</strong>
+          <span>{{ img.caption }}</span>
+        </figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap reveal">
+    <h2>Pictures are proof. Dinner is evidence.</h2>
+    <div class="center">
+      <a class="btn btn--primary" href="/reserve">Reserve a table</a>
+      <a class="btn btn--ghost-dark" href="/menu">See the menu ›</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
